@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Lê — Agente de Design</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+
+<aside id="sidebar">
+  <div class="sidebar-header">
+
+    <div class="brand">
+      <div class="brand-icon">Lê</div>
+      <div>
+        <div class="brand-name">Dicas da agente Lê</div>
+        <div class="brand-sub">Design Expert</div>
+      </div>
+    </div>
+
+    <!-- Botão: Nova conversa -->
+    <button id="btn-new" onclick="newConversation()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Nova conversa
+    </button>
+
+    <!-- Atalhos -->
+    <div class="sidebar-actions">
+      <button class="sidebar-action-btn" id="btn-prompts" onclick="openPromptModal()">
+        <span class="action-icon">✦</span>
+        Prompts recomendados
+      </button>
+      <button class="sidebar-action-btn" id="btn-horarios" onclick="openHorariosModal()">
+        <span class="action-icon">🕐</span>
+        Melhores horários
+      </button>
+    </div>
+
+  </div>
+  <div class="conv-list-label">Conversas</div>
+  <div id="conv-list"></div>
+</aside>
+
+<!-- MODAL — PROMPTS RECOMENDADOS-->
+<div class="modal" id="modal-prompts" onclick="closeModalOnOverlay(event,'modal-prompts')">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>✦ Prompts recomendados</h3>
+      <button class="modal-close" onclick="closeModal('modal-prompts')">✕</button>
+    </div>
+    <p class="modal-subtitle">Clique em qualquer prompt para enviá-lo direto para a Lê.</p>
+
+    <div class="prompt-list">
+
+      <div class="prompt-item" onclick="usePrompt('Crie um banner para o Instagram com tema de verão, cores vibrantes e frase motivacional para uma marca de moda feminina.')">
+        <div class="prompt-title">🌊 Banner Verão — Moda</div>
+        <div class="prompt-text">Banner para Instagram com tema de verão, cores vibrantes e frase motivacional para marca de moda feminina.</div>
+      </div>
+
+      <div class="prompt-item" onclick="usePrompt('Gere um banner de promoção de Black Friday com fundo escuro, texto de impacto e desconto de 50% em destaque para uma loja de tecnologia.')">
+        <div class="prompt-title">🖤 Black Friday — Tech</div>
+        <div class="prompt-text">Banner de Black Friday com fundo escuro, texto impactante e desconto de 50% para loja de tecnologia.</div>
+      </div>
+
+      <div class="prompt-item" onclick="usePrompt('Crie um carrossel de dicas de bem-estar e autocuidado com design clean, tons pastéis e tipografia elegante para um perfil de saúde.')">
+        <div class="prompt-title">🌿 Carrossel Bem-estar</div>
+        <div class="prompt-text">Carrossel de dicas de bem-estar com design clean, tons pastéis e tipografia elegante.</div>
+      </div>
+
+      <div class="prompt-item" onclick="usePrompt('Faça um banner de lançamento de produto com fundo gradiente roxo, efeito de luz, foto do produto centralizada e chamada para ação clara.')">
+        <div class="prompt-title">🚀 Lançamento de Produto</div>
+        <div class="prompt-text">Banner de lançamento com gradiente roxo, efeito de luz e produto centralizado com CTA.</div>
+      </div>
+
+      <div class="prompt-item" onclick="usePrompt('Crie um banner para Stories com contagem regressiva de evento, fundo animado com partículas e identidade visual de festival de música.')">
+        <div class="prompt-title">🎵 Stories — Festival</div>
+        <div class="prompt-text">Banner para Stories com contagem regressiva e visual de festival de música.</div>
+      </div>
+
+      <div class="prompt-item" onclick="usePrompt('Gere um banner institucional corporativo com foto de equipe, slogan de empresa, paleta azul e branca e visual profissional para o LinkedIn.')">
+        <div class="prompt-title">💼 Banner Corporativo — LinkedIn</div>
+        <div class="prompt-text">Banner institucional com paleta azul e branca e visual profissional para LinkedIn.</div>
+      </div>
+
+    </div>
+    <button class="close-modal-btn" onclick="closeModal('modal-prompts')">Fechar</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     MODAL — MELHORES HORÁRIOS
+     ══════════════════════════════════ -->
+<div class="modal" id="modal-horarios" onclick="closeModalOnOverlay(event,'modal-horarios')">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>🕐 Melhores horários para postar</h3>
+      <button class="modal-close" onclick="closeModal('modal-horarios')">✕</button>
+    </div>
+    <p class="modal-subtitle">Dados de engajamento por plataforma. Horários no fuso de Brasília (BRT).</p>
+
+    <div class="platform-grid">
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <span class="platform-emoji">📸</span>
+          <div>
+            <div class="platform-name">Instagram</div>
+            <div class="platform-type">Feed & Reels</div>
+          </div>
+        </div>
+        <div class="time-slots">
+          <span class="time-slot">06h–08h</span>
+          <span class="time-slot">11h–13h</span>
+          <span class="time-slot best">19h–21h ✦</span>
+        </div>
+        <div class="platform-tip">📅 Terça, Quarta e Sexta</div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <span class="platform-emoji">🎵</span>
+          <div>
+            <div class="platform-name">TikTok</div>
+            <div class="platform-type">Vídeos curtos</div>
+          </div>
+        </div>
+        <div class="time-slots">
+          <span class="time-slot">07h–09h</span>
+          <span class="time-slot best">12h–15h ✦</span>
+          <span class="time-slot">20h–23h</span>
+        </div>
+        <div class="platform-tip">📅 Terça, Quinta e Domingo</div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <span class="platform-emoji">👥</span>
+          <div>
+            <div class="platform-name">Facebook</div>
+            <div class="platform-type">Posts & Grupos</div>
+          </div>
+        </div>
+        <div class="time-slots">
+          <span class="time-slot">08h–10h</span>
+          <span class="time-slot best">13h–15h ✦</span>
+          <span class="time-slot">18h–20h</span>
+        </div>
+        <div class="platform-tip">📅 Quarta e Quinta</div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <span class="platform-emoji">💼</span>
+          <div>
+            <div class="platform-name">LinkedIn</div>
+            <div class="platform-type">Conteúdo profissional</div>
+          </div>
+        </div>
+        <div class="time-slots">
+          <span class="time-slot best">07h–09h ✦</span>
+          <span class="time-slot">12h–14h</span>
+          <span class="time-slot">17h–18h</span>
+        </div>
+        <div class="platform-tip">📅 Terça, Quarta e Quinta</div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <span class="platform-emoji">📌</span>
+          <div>
+            <div class="platform-name">Pinterest</div>
+            <div class="platform-type">Pins & Boards</div>
+          </div>
+        </div>
+        <div class="time-slots">
+          <span class="time-slot">14h–16h</span>
+          <span class="time-slot best">20h–23h ✦</span>
+        </div>
+        <div class="platform-tip">📅 Sábado e Domingo</div>
+      </div>
+
+      <div class="platform-card">
+        <div class="platform-header">
+          <span class="platform-emoji">🐦</span>
+          <div>
+            <div class="platform-name">X (Twitter)</div>
+            <div class="platform-type">Tweets & Threads</div>
+          </div>
+        </div>
+        <div class="time-slots">
+          <span class="time-slot best">08h–10h ✦</span>
+          <span class="time-slot">12h–13h</span>
+          <span class="time-slot">17h–19h</span>
+        </div>
+        <div class="platform-tip">📅 Quarta e Sexta</div>
+      </div>
+
+    </div>
+
+    <div class="horarios-legend">
+      <span class="legend-item"><span class="time-slot best" style="font-size:10px;padding:2px 8px">✦ melhor</span>
+    </div>
+
+    <button class="close-modal-btn" onclick="closeModal('modal-horarios')">Fechar</button>
+  </div>
+</div>
+
+<!-- OVERLAY MOBILE SIDEBAR-->
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!--  MAIN -->
+<main id="main">
+  <header id="chat-header">
+    <div class="chat-header-left">
+      <button id="hamburger" onclick="toggleSidebar()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+      <div class="agent-avatar">Lê</div>
+      <div class="agent-info">
+        <h2>Lê — Expert em Design</h2>
+        <div class="agent-status">Online</div>
+      </div>
+    </div>
+    <button id="btn-create-page" title="Salvar imagem">💾 Salvar imagem</button>
+  </header>
+
+  <div id="messages">
+    <div id="empty-state">
+      <div class="empty-icon">✦</div>
+      <h3>Olá! Sou a Lê.</h3>
+      <p>Sua agente especialista em design e tendências. Manda o briefing e eu gero o banner + as hashtags certas com base nas notícias do momento!</p>
+    </div>
+    <div id="typing-row">
+      <div class="msg-avatar ai">Lê</div>
+      <div class="typing-bubble">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <span id="typing-label">gerando banner...</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="input-area">
+    <div class="input-wrap">
+      <textarea id="msg-input" rows="1" placeholder="Mande seu briefing para a Lê..."></textarea>
+      <button id="send-btn" onclick="sendMessage()" title="Enviar (Enter)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5">
+          <line x1="22" y1="2" x2="11" y2="13"/>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+        </svg>
+      </button>
+    </div>
+    <div class="input-hint">Enter para enviar · Shift+Enter para quebrar linha</div>
+  </div>
+</main>
+
+<div id="toast"></div>
+
+<script>
+const API_BASE = 'http://localhost:3000/api';
+let currentConvId = null;
+let conversations  = [];
+let isLoading      = false;
+
+// ── INIT ──
+async function init() {
+  await newConversation();
+}
+
+async function loadConversations() {
+  try {
+    const res  = await fetch(`${API_BASE}/conversations`);
+    const data = await res.json();
+    conversations = Array.isArray(data) ? data : [];
+    renderConvList();
+  } catch (e) {
+    showToast('Erro ao carregar conversas.', 'error');
+  }
+}
+
+function renderConvList() {
+  const el = document.getElementById('conv-list');
+  if (!conversations.length) {
+    el.innerHTML = '<div style="padding:12px;font-size:12px;color:#ffffff30;text-align:center">Nenhuma conversa ainda</div>';
+    return;
+  }
+  el.innerHTML = conversations.map(c => `
+    <div class="conv-item${c.id === currentConvId ? ' active' : ''}" onclick="selectConversation('${c.id}')">
+      <div class="conv-title">${escapeHtml(c.title || convTitle(c))}</div>
+      <div class="conv-date">${formatDate(c.updated_at || c.created_at)}</div>
+    </div>`).join('');
+}
+
+async function newConversation() {
+  try {
+    const res  = await fetch(`${API_BASE}/conversations`, { method: 'POST' });
+    const data = await res.json();
+    conversations.unshift({ id: data.id, title: 'Nova conversa' });
+    currentConvId = data.id;
+    renderConvList();
+    clearMessages();
+    closeSidebar();
+  } catch (e) {
+    showToast('Não foi possível criar conversa.', 'error');
+  }
+}
+
+async function selectConversation(id) {
+  currentConvId = id;
+  renderConvList();
+  clearMessages();
+  closeSidebar();
+  try {
+    const res  = await fetch(`${API_BASE}/conversations/${id}`);
+    const data = await res.json();
+    (data.messages || []).forEach(m => appendBubble(m.role, m.content, m.file_urls || []));
+    showEmpty(!(data.messages || []).length);
+  } catch (e) {
+    showToast('Erro ao carregar mensagens.', 'error');
+  }
+}
+
+// ── MODAIS ──
+
+// Abre o modal de Prompts
+function openPromptModal() {
+  document.getElementById('modal-prompts').style.display = 'flex';
+}
+
+// Abre o modal de Horários
+function openHorariosModal() {
+  document.getElementById('modal-horarios').style.display = 'flex';
+}
+
+// Fecha um modal pelo id
+function closeModal(id) {
+  document.getElementById(id).style.display = 'none';
+}
+
+// Fecha o modal se o clique foi no fundo escuro (não dentro da caixa branca)
+function closeModalOnOverlay(event, id) {
+  if (event.target.id === id) closeModal(id);
+}
+
+// Preenche o textarea com o prompt escolhido e fecha o modal
+function usePrompt(texto) {
+  const input = document.getElementById('msg-input');
+  input.value = texto;
+  autoResize(input);
+  input.focus();
+  closeModal('modal-prompts');
+}
+
+// Fecha qualquer modal aberto ao pressionar Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    closeModal('modal-prompts');
+    closeModal('modal-horarios');
+  }
+});
+
+// ── ENVIO DE MENSAGEM ──
+async function sendMessage() {
+  if (isLoading) return;
+  const input   = document.getElementById('msg-input');
+  const content = input.value.trim();
+  if (!content || !currentConvId) return;
+
+  input.value = '';
+  autoResize(input);
+  showEmpty(false);
+  appendBubble('user', content);
+  setTyping(true, 'gerando banner...');
+  updateConvTitle(currentConvId, content);
+
+  try {
+    const res = await fetch(`${API_BASE}/messages`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ conversationId: currentConvId, content })
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      showToast(`Erro ${res.status}: ${err.error || 'Tente novamente.'}`, 'error');
+      setTyping(false);
+      return;
+    }
+
+    const data = await res.json();
+
+    if (data.messages && Array.isArray(data.messages)) {
+      const bannerMsg   = data.messages.find(m => m.type === 'banner'   || data.messages.indexOf(m) === 0);
+      const hashtagsMsg = data.messages.find(m => m.type === 'hashtags' || data.messages.indexOf(m) === 1);
+
+      if (bannerMsg) {
+        setTyping(false);
+        appendBubble('assistant', bannerMsg.content, bannerMsg.file_urls || []);
+      }
+
+      if (hashtagsMsg && hashtagsMsg.content) {
+        setTyping(true, 'lendo notícias e gerando hashtags...');
+        await sleep(900);
+        setTyping(false);
+        appendHashtagBubble(hashtagsMsg.content);
+      }
+
+    } else if (data.role === 'assistant') {
+      appendBubble('assistant', data.content, data.file_urls || []);
+    } else {
+      showToast('Resposta inesperada do servidor.', 'error');
+    }
+
+  } catch (e) {
+    showToast('Erro de conexão com o servidor.', 'error');
+  } finally {
+    setTyping(false);
+  }
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+// ── BUBBLE DE HASHTAGS ──
+function appendHashtagBubble(rawText) {
+  const messages  = document.getElementById('messages');
+  const typingRow = document.getElementById('typing-row');
+
+  const row = document.createElement('div');
+  row.className = 'msg-row';
+
+  const av = document.createElement('div');
+  av.className = 'msg-avatar ai';
+  av.textContent = 'Lê';
+
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble ai hashtags-bubble';
+
+  const allTags = [...new Set((rawText.match(/#[A-Za-zÀ-ÖØ-öø-ÿ0-9_]+/g) || []))];
+
+  const smartSection = rawText.match(/🤖[^\n]*\n([\s\S]*?)(?=\n🏷️|\n📋|$)/);
+  const smartTagsRaw = smartSection
+    ? [...new Set((smartSection[1].match(/#[A-Za-zÀ-ÖØ-öø-ÿ0-9_]+/g) || []))]
+    : [];
+  const smartSet = new Set(smartTagsRaw.map(t => t.toLowerCase()));
+
+  const cleanText = rawText
+    .replace(/🤖 \*\*Hashtags geradas pela IA[^:]*:\*\*\n[^\n]*/g, '🤖 **Hashtags geradas pela IA com base nas notícias:**')
+    .replace(/🏷️ \*\*Hashtags complementares[^:]*:\*\*\n[^\n]*/g, '🏷️ **Hashtags complementares:**')
+    .replace(/📋 \*\*Copie tudo[^:]*:\*\*\n.*/g, '');
+
+  let html = escapeHtml(cleanText)
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\n/g, '<br>');
+
+  bubble.innerHTML = html;
+
+  if (allTags.length) {
+    const section = document.createElement('div');
+    section.innerHTML = '<br><strong>Clique para copiar:</strong>';
+    bubble.appendChild(section);
+
+    const chips = document.createElement('div');
+    chips.className = 'hashtag-chips';
+    allTags.forEach(tag => {
+      const chip = document.createElement('span');
+      chip.className = 'chip' + (smartSet.has(tag.toLowerCase()) ? ' smart' : '');
+      chip.textContent = tag;
+      chip.title = smartSet.has(tag.toLowerCase()) ? '✨ Gerada com base nas notícias' : 'Palavra-chave automática';
+      chip.onclick = () => {
+        navigator.clipboard.writeText(tag).then(() => showToast(`${tag} copiada!`));
+      };
+      chips.appendChild(chip);
+    });
+    bubble.appendChild(chips);
+
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-all-btn';
+    copyBtn.textContent = '📋 Copiar todas as hashtags';
+    copyBtn.onclick = () => {
+      navigator.clipboard.writeText(allTags.join(' ')).then(() => showToast('✅ Todas as hashtags copiadas!'));
+    };
+    bubble.appendChild(copyBtn);
+  }
+
+  row.appendChild(av);
+  row.appendChild(bubble);
+  messages.insertBefore(row, typingRow);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+// ── BUBBLE NORMAL ──
+function appendBubble(role, content, fileUrls = []) {
+  const messages  = document.getElementById('messages');
+  const typingRow = document.getElementById('typing-row');
+
+  const row = document.createElement('div');
+  row.className = `msg-row ${role === 'user' ? 'user' : ''}`;
+
+  const av = document.createElement('div');
+  av.className = `msg-avatar ${role === 'user' ? 'user-av' : 'ai'}`;
+  av.textContent = role === 'user' ? '👤' : 'Lê';
+
+  const bubble = document.createElement('div');
+  bubble.className = `bubble ${role === 'user' ? 'user' : 'ai'}`;
+  bubble.innerHTML = formatMessageWithImages(content, fileUrls);
+
+  row.appendChild(av);
+  row.appendChild(bubble);
+  messages.insertBefore(row, typingRow);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function formatMessageWithImages(text, fileUrls = []) {
+  let allImageUrls = [...(fileUrls || [])];
+  let textContent  = typeof text === 'string' ? text : (text?.content || JSON.stringify(text));
+
+  const imageUrlRegex = /(https?:\/\/[^\s<>"]+?\.(?:png|jpg|jpeg|gif|webp|svg)(?:\?[^\s<>"]*)?)/gi;
+  let m;
+  while ((m = imageUrlRegex.exec(textContent)) !== null) allImageUrls.push(m[1]);
+
+  const markdownRegex = /!\[([^\]]*)\]\(([^)]+)\)/g;
+  while ((m = markdownRegex.exec(textContent)) !== null) allImageUrls.push(m[2]);
+
+  const imgTagRegex = /<img\s+[^>]*src="([^"]+)"[^>]*>/gi;
+  while ((m = imgTagRegex.exec(textContent)) !== null) allImageUrls.push(m[1]);
+
+  allImageUrls = [...new Set(allImageUrls)];
+
+  let html = '';
+  for (const url of allImageUrls) {
+    if (url?.trim()) html += `<img src="${escapeHtml(url)}" class="message-image" loading="lazy" alt="Imagem gerada">`;
+  }
+
+  let cleanText = textContent;
+  for (const url of allImageUrls) cleanText = cleanText.replace(new RegExp(escapeRegex(url), 'g'), '');
+  cleanText = cleanText.replace(/!\[[^\]]*\]\([^)]+\)/g, '').replace(/<img[^>]+>/g, '');
+  cleanText = escapeHtml(cleanText).replace(/\n/g, '<br>');
+
+  if (cleanText.trim()) html += (html ? '<div style="margin-top:8px">' : '') + cleanText + (html ? '</div>' : '');
+  return html || '[Mensagem sem conteúdo]';
+}
+
+function escapeRegex(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function escapeHtml(s)  { return !s ? '' : String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── BOTÃO SALVAR IMAGEM ──
+document.getElementById('btn-create-page').addEventListener('click', async () => {
+  const rows = document.querySelectorAll('#messages .msg-row');
+  let lastAssistant = null;
+  for (let i = rows.length - 1; i >= 0; i--) {
+    if (!rows[i].classList.contains('user') && !rows[i].querySelector('.hashtags-bubble')) {
+      lastAssistant = rows[i]; break;
+    }
+  }
+  if (!lastAssistant) { showToast('Nenhum banner encontrado. Peça um primeiro!', 'error'); return; }
+
+  const imgs = lastAssistant.querySelectorAll('.message-image');
+  if (!imgs.length) { showToast('O último banner não tem imagem.', 'error'); return; }
+
+  let platform = prompt('Para qual plataforma salvar?\nEx: Instagram, Facebook, TikTok', 'Instagram');
+  if (!platform?.trim()) return;
+  platform = platform.trim();
+
+  setTyping(true, 'salvando imagem...');
+  try {
+    const r = await fetch(`${API_BASE}/save-image`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ imageUrl: imgs[0].src, platform })
+    });
+    const d = await r.json();
+    if (r.ok) appendBubble('assistant', `✅ Imagem salva!\n📁 Pasta: ${d.platformDir}\n🖼️ Arquivo: ${d.filePath}`);
+    else      appendBubble('assistant', `❌ Erro: ${d.error || 'desconhecido'}`);
+  } catch (err) {
+    appendBubble('assistant', `❌ Erro de conexão: ${err.message}`);
+  } finally {
+    setTyping(false);
+  }
+});
+
+// ── HELPERS ──
+function clearMessages() {
+  const msgs   = document.getElementById('messages');
+  const typing = document.getElementById('typing-row');
+  const empty  = document.getElementById('empty-state');
+  [...msgs.children].forEach(c => { if (c !== typing && c !== empty) c.remove(); });
+  showEmpty(true);
+}
+function showEmpty(show) { document.getElementById('empty-state').style.display = show ? 'flex' : 'none'; }
+
+function setTyping(on, label = 'gerando...') {
+  isLoading = on;
+  document.getElementById('typing-row').style.display = on ? 'flex' : 'none';
+  document.getElementById('typing-label').textContent  = label;
+  document.getElementById('send-btn').disabled = on;
+  document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+}
+
+const textarea = document.getElementById('msg-input');
+textarea.addEventListener('input', function() { autoResize(this); });
+function autoResize(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 140) + 'px'; }
+textarea.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } });
+
+let toastTimer;
+function showToast(msg, type = '') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `show ${type}`;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = type; }, 4000);
+}
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('show');
+}
+function closeSidebar() {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
+function convTitle(c) { return c.title || `Conversa ${String(c.id).slice(-4)}`; }
+function updateConvTitle(id, msg) {
+  const c = conversations.find(x => x.id === id);
+  if (c && (!c.title || c.title === 'Nova conversa')) {
+    c.title = msg.length > 36 ? msg.slice(0, 36) + '…' : msg;
+    renderConvList();
+  }
+}
+function formatDate(dt) {
+  if (!dt) return '';
+  const d = new Date(dt); if (isNaN(d)) return '';
+  const diff = (new Date() - d) / 1000;
+  if (diff < 60)    return 'Agora';
+  if (diff < 3600)  return `${Math.floor(diff/60)}min atrás`;
+  if (diff < 86400) return d.toLocaleTimeString('pt-BR', {hour:'2-digit',minute:'2-digit'});
+  return d.toLocaleDateString('pt-BR', {day:'2-digit',month:'2-digit'});
+}
+
+init();
+</script>
+</body>
+</html>
